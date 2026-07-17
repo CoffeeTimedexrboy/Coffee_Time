@@ -195,7 +195,7 @@ let ok = confirm(
 
     if(ok){
 
-        fetch("http://localhost:3000/order", {
+        fetch("http://192.168.1.115:3000/order", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -303,7 +303,7 @@ function clearCart(){
 }
 function changeStatus(orderNo, status){
 
-    fetch("http://localhost:3000/order/" + orderNo, {
+    fetch("http://192.168.1.115:3000/order/" + orderNo, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -326,7 +326,7 @@ async function checkStatus(){
         return;
     }
 
-    let res = await fetch("http://localhost:3000/order/" + orderNo);
+    let res = await fetch("http://192.168.1.115:3000/order/" + orderNo);
 
     if(!res.ok){
         return;
@@ -345,7 +345,7 @@ checkStatus();
 setInterval(checkStatus,1000);
 async function changeStatus(orderNo,status){
 
-    await fetch("http://localhost:3000/order/"+orderNo,{
+    await fetch("http://192.168.1.115:3000/order/"+orderNo,{
 
         method:"PUT",
 
@@ -372,7 +372,7 @@ async function checkStatus(){
         return;
     }
 
-    let res = await fetch("http://localhost:3000/order/" + orderNo);
+    let res = await fetch("http://192.168.1.115:3000/order/" + orderNo);
 
     if(!res.ok){
         return;

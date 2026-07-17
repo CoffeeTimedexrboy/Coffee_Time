@@ -74,9 +74,14 @@ return;
 
 }
 
-let res=await fetch("http://localhost:3000/order/"+orderNo);
+let res = await fetch("http://192.168.1.115:3000/order/" + orderNo);
 
-let order=await res.json();
+if(!res.ok){
+    document.getElementById("status").innerHTML = "❌ ไม่พบออเดอร์";
+    return;
+}
+
+let order = await res.json();
 
 document.getElementById("orderNo").innerHTML=order.orderNo;
 

@@ -1,5 +1,5 @@
 console.log(__filename);
-console.log("===== SERVER VERSION 2026 =====");
+console.log("===== SERVER VERSION 12345 =====");
 
 const express = require("express");
 const cors = require("cors");
@@ -34,16 +34,11 @@ app.get("/", (req, res) => {
 });
 
 // =============================
-// ทดสอบ API Register
-// =============================
-app.get("/api/register", (req, res) => {
-    res.send("API Register ทำงาน");
-});
-
-// =============================
 // สมัครสมาชิก
 // =============================
 app.post("/api/register", async (req, res) => {
+
+    console.log("REGISTER API ถูกเรียก");
 
     try {
 
@@ -92,7 +87,7 @@ app.post("/api/register", async (req, res) => {
 });
 
 // =============================
-// ตรวจสอบสมาชิก
+// ตรวจสอบเบอร์สมาชิก
 // =============================
 app.post("/api/check-phone", async (req, res) => {
 
@@ -101,7 +96,7 @@ app.post("/api/check-phone", async (req, res) => {
         const { phone } = req.body;
 
         const customer = await db.get(
-            "SELECT * FROM customers WHERE phone=?",
+            "SELECT * FROM customers WHERE phone = ?",
             [phone]
         );
 
@@ -129,93 +124,6 @@ app.post("/api/check-phone", async (req, res) => {
 });
 
 // =============================
-// เพิ่มแต้ม
-// =============================
-app.post("/api/add-point", async (req, res) => {
-
-    try {
-
-        const { phone, point } = req.body;
-
-        await db.run(
-            "UPDATE customers SET points = points + ? WHERE phone=?",
-            [point, phone]
-        );
-
-        res.json({
-            success: true,
-            message: "เพิ่มแต้มสำเร็จ"
-        });
-
-    } catch (err) {
-
-        console.log(err);
-
-        res.status(500).json({
-            success: false
-        });
-
-    }
-
-});
-
-// =============================
-// ใช้แต้ม
-// =============================
-app.post("/api/use-point", async (req, res) => {
-
-    try {
-
-        const { phone, point } = req.body;
-
-        await db.run(
-            "UPDATE customers SET points = points - ? WHERE phone=?",
-            [point, phone]
-        );
-
-        res.json({
-            success: true,
-            message: "ใช้แต้มสำเร็จ"
-        });
-
-    } catch (err) {
-
-        console.log(err);
-
-        res.status(500).json({
-            success: false
-        });
-
-    }
-
-});
-
-// =============================
-// ดูสมาชิกทั้งหมด
-// =============================
-app.get("/api/customers", async (req, res) => {
-
-    try {
-
-        const customers = await db.all(
-            "SELECT * FROM customers ORDER BY id DESC"
-        );
-
-        res.json(customers);
-
-    } catch (err) {
-
-        console.log(err);
-
-        res.status(500).json({
-            success: false
-        });
-
-    }
-
-});
-
-// =============================
 // รับออเดอร์
 // =============================
 app.post("/order", (req, res) => {
@@ -226,6 +134,7 @@ app.post("/order", (req, res) => {
 
     orders.push(order);
 
+    console.log("มีออเดอร์ใหม่");
     console.log(order);
 
     res.json({
@@ -238,9 +147,7 @@ app.post("/order", (req, res) => {
 // ดูออเดอร์ทั้งหมด
 // =============================
 app.get("/orders", (req, res) => {
-
     res.json(orders);
-
 });
 
 // =============================
@@ -286,8 +193,14 @@ app.put("/order/:orderNo", (req, res) => {
 });
 
 // =============================
-// Start Server
+// ทดสอบ API Register
 // =============================
-app.listen(3000, "0.0.0.0", () => {
-    console.log("🚀 Server running on port 3000");
+app.get("/api/register", (req, res) => {
+    res.send("API Register ทำงาน");
 });
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+
+console.log("MY SERVER FILE");
